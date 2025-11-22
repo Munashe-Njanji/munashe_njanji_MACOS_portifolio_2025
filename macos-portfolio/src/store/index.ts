@@ -1,0 +1,11 @@
+// Export all stores
+export { useWindowStore } from './windowStore'
+export { useFileStore } from './fileStore'
+export { useUIStore } from './uiStore'
+export { usePreferencesStore } from './preferencesStore'
+export { useSpacesStore } from './spacesStore'
+export { useNotificationStore } from './notificationStore'
+export { useSpotlightStore } from './spotlightStore'
+export { useTerminalStore } from './terminalStore'
+export { useSafariStore } from './safariStore'
+export { useClipboardStore } from './clipboardStore'

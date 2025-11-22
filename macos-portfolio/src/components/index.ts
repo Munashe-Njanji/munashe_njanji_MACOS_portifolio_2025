@@ -1,0 +1,11 @@
+// Export all components
+export { Desktop } from './Desktop'
+export * from './MenuBar'
+export * from './Dock'
+export * from './WindowFrame'
+export * from './WindowManager'
+export * from './ContextMenu'
+export * from './Icon'
+export * from './Spotlight'
+export * from './NotificationCenter'
+export * from './MissionControl'

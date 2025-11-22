@@ -1,0 +1,172 @@
+@import 'tailwindcss';
+
+/* macOS Design Tokens */
+@theme {
+  /* Colors - macOS inspired palette */
+  --color-macos-blue: #007aff;
+  --color-macos-purple: #af52de;
+  --color-macos-pink: #ff2d55;
+  --color-macos-red: #ff3b30;
+  --color-macos-orange: #ff9500;
+  --color-macos-yellow: #ffcc00;
+  --color-macos-green: #34c759;
+  --color-macos-teal: #5ac8fa;
+  --color-macos-indigo: #5856d6;
+
+  /* Grays */
+  --color-macos-gray-50: #f9fafb;
+  --color-macos-gray-100: #f3f4f6;
+  --color-macos-gray-200: #e5e7eb;
+  --color-macos-gray-300: #d1d5db;
+  --color-macos-gray-400: #9ca3af;
+  --color-macos-gray-500: #6b7280;
+  --color-macos-gray-600: #4b5563;
+  --color-macos-gray-700: #374151;
+  --color-macos-gray-800: #1f2937;
+  --color-macos-gray-900: #111827;
+
+  /* Window chrome */
+  --color-window-bg: #ffffff;
+  --color-window-bg-dark: #1e1e1e;
+  --color-titlebar: #ececec;
+  --color-titlebar-dark: #2d2d2d;
+  --color-titlebar-unfocused: #f6f6f6;
+  --color-titlebar-unfocused-dark: #252525;
+
+  /* Dock */
+  --color-dock-bg: rgba(255, 255, 255, 0.3);
+  --color-dock-bg-dark: rgba(30, 30, 30, 0.8);
+  --color-dock-separator: rgba(0, 0, 0, 0.1);
+
+  /* Shadows - macOS style */
+  --shadow-window: 0 10px 40px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-window-focused: 0 20px 60px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-dock: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-menu: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-context-menu: 0 8px 24px rgba(0, 0, 0, 0.2);
+
+  /* Border radius */
+  --radius-window: 10px;
+  --radius-button: 6px;
+  --radius-dock: 16px;
+  --radius-menu: 8px;
+
+  /* Spacing - macOS style */
+  --spacing-titlebar-height: 28px;
+  --spacing-dock-height: 64px;
+  --spacing-menubar-height: 24px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Backdrop blur */
+  --blur-dock: blur(40px);
+  --blur-menu: blur(20px);
+  --blur-window: blur(10px);
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', 'Helvetica Neue', Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #f0f0f0;
+}
+
+/* Custom scrollbar - macOS style */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--color-macos-blue);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-macos-blue);
+  color: white;
+}
+
+/* Disable text selection on UI elements */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Draggable cursor */
+.draggable {
+  cursor: grab;
+}
+
+.draggable:active {
+  cursor: grabbing;
+}
+
+/* Glass morphism effect for Dock and menus */
+.glass {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: var(--blur-dock);
+  -webkit-backdrop-filter: var(--blur-dock);
+}
+
+.glass-dark {
+  background: rgba(30, 30, 30, 0.8);
+  backdrop-filter: var(--blur-dock);
+  -webkit-backdrop-filter: var(--blur-dock);
+}
+
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Pointer lock cursor */
+.cursor-default {
+  cursor: default;
+}
