@@ -1,5 +1,5 @@
 import { render, type RenderOptions } from '@testing-library/react'
-import type { ReactElement } from 'react'
+import { type ReactElement } from 'react'
 
 // Custom render function that includes providers
 export function renderWithProviders(ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) {
