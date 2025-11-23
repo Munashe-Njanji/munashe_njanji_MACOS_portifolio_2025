@@ -12,19 +12,32 @@ export const ClipboardEntry: React.FC<ClipboardEntryProps> = ({
   onPaste,
   isSelected = false,
 }) => {
-  const formatTimestamp = (timestamp: number) => {
-    const now = Date.now()
-    const diff = now - timestamp
-    const seconds = Math.floor(diff / 1000)
-    const minutes = Math.floor(seconds / 60)
-    const hours = Math.floor(minutes / 60)
-    const days = Math.floor(hours / 24)
+  const [formattedTime, setFormattedTime] = React.useState('')
 
-    if (days > 0) return `${days}d ago`
-    if (hours > 0) return `${hours}h ago`
-    if (minutes > 0) return `${minutes}m ago`
-    return 'Just now'
-  }
+  React.useEffect(() => {
+    const formatTimestamp = (timestamp: number) => {
+      const now = Date.now()
+      const diff = now - timestamp
+      const seconds = Math.floor(diff / 1000)
+      const minutes = Math.floor(seconds / 60)
+      const hours = Math.floor(minutes / 60)
+      const days = Math.floor(hours / 24)
+
+      if (days > 0) return `${days}d ago`
+      if (hours > 0) return `${hours}h ago`
+      if (minutes > 0) return `${minutes}m ago`
+      return 'Just now'
+    }
+
+    setFormattedTime(formatTimestamp(entry.timestamp))
+
+    // Update every minute
+    const interval = setInterval(() => {
+      setFormattedTime(formatTimestamp(entry.timestamp))
+    }, 60000)
+
+    return () => clearInterval(interval)
+  }, [entry.timestamp])
 
   const truncateContent = (content: string, maxLength: number = 150) => {
     if (content.length <= maxLength) return content
@@ -87,7 +100,7 @@ export const ClipboardEntry: React.FC<ClipboardEntryProps> = ({
             {truncateContent(entry.content)}
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            {formatTimestamp(entry.timestamp)}
+            {formattedTime}
           </p>
         </div>
         <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">

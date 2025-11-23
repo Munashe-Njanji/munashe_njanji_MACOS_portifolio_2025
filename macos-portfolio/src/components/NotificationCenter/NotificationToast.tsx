@@ -7,6 +7,7 @@ export const NotificationToast: React.FC<NotificationToastProps> = ({
   onClick,
 }) => {
   const [timeLeft, setTimeLeft] = useState(notification.ttl)
+  const [formattedTime, setFormattedTime] = useState('')
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -21,6 +22,28 @@ export const NotificationToast: React.FC<NotificationToastProps> = ({
 
     return () => clearInterval(interval)
   }, [onDismiss])
+
+  useEffect(() => {
+    const formatTime = (timestamp: number) => {
+      const now = Date.now()
+      const diff = now - timestamp
+      const minutes = Math.floor(diff / 60000)
+      const hours = Math.floor(diff / 3600000)
+
+      if (hours > 0) return `${hours}h ago`
+      if (minutes > 0) return `${minutes}m ago`
+      return 'Just now'
+    }
+
+    setFormattedTime(formatTime(notification.timestamp))
+
+    // Update every minute
+    const interval = setInterval(() => {
+      setFormattedTime(formatTime(notification.timestamp))
+    }, 60000)
+
+    return () => clearInterval(interval)
+  }, [notification.timestamp])
 
   const getTypeStyles = () => {
     switch (notification.type) {
@@ -48,17 +71,6 @@ export const NotificationToast: React.FC<NotificationToastProps> = ({
       default:
         return 'ℹ️'
     }
-  }
-
-  const formatTime = (timestamp: number) => {
-    const now = Date.now()
-    const diff = now - timestamp
-    const minutes = Math.floor(diff / 60000)
-    const hours = Math.floor(diff / 3600000)
-
-    if (hours > 0) return `${hours}h ago`
-    if (minutes > 0) return `${minutes}m ago`
-    return 'Just now'
   }
 
   const progressPercentage = (timeLeft / notification.ttl) * 100
@@ -109,7 +121,7 @@ export const NotificationToast: React.FC<NotificationToastProps> = ({
           <p className="text-xs mt-1 opacity-90">{notification.body}</p>
 
           <div className="flex items-center justify-between mt-2">
-            <span className="text-xs opacity-70">{formatTime(notification.timestamp)}</span>
+            <span className="text-xs opacity-70">{formattedTime}</span>
 
             {notification.actionable && (
               <button

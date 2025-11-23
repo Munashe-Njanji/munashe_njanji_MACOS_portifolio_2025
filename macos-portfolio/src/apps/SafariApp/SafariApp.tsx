@@ -228,14 +228,14 @@ export const SafariApp: React.FC<SafariAppProps> = () => {
   )
 
   return (
-    <div className="w-full h-full flex flex-col bg-white" onContextMenu={handleContextMenu}>
+    <div className="theme-app-bg w-full h-full flex flex-col" onContextMenu={handleContextMenu}>
       {/* Address Bar */}
-      <div className="h-12 px-4 flex items-center space-x-2 border-b border-gray-300 bg-gray-50">
+      <div className="h-12 px-4 flex items-center space-x-2" style={{ borderBottom: '1px solid var(--theme-windowBorder)', background: 'var(--theme-foreground)' }}>
         {/* Navigation Buttons */}
         <button
           onClick={handleBack}
           disabled={!canGoBack}
-          className="p-2 hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed rounded transition-colors"
+          className="theme-text-primary p-2 theme-hover disabled:opacity-30 disabled:cursor-not-allowed rounded transition-colors"
           title="Back"
         >
           <svg
@@ -256,7 +256,7 @@ export const SafariApp: React.FC<SafariAppProps> = () => {
         <button
           onClick={handleForward}
           disabled={!canGoForward}
-          className="p-2 hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed rounded transition-colors"
+          className="theme-text-primary p-2 theme-hover disabled:opacity-30 disabled:cursor-not-allowed rounded transition-colors"
           title="Forward"
         >
           <svg
@@ -277,7 +277,7 @@ export const SafariApp: React.FC<SafariAppProps> = () => {
         <button
           onClick={handleReload}
           disabled={!goURL}
-          className="p-2 hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed rounded transition-colors"
+          className="theme-text-primary p-2 theme-hover disabled:opacity-30 disabled:cursor-not-allowed rounded transition-colors"
           title="Reload"
         >
           <svg
@@ -302,7 +302,7 @@ export const SafariApp: React.FC<SafariAppProps> = () => {
             value={currentURL}
             onChange={(e) => setCurrentURL(e.target.value)}
             onKeyPress={handleKeyPress}
-            className="w-full px-3 py-1.5 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-center"
+            className="theme-input w-full px-3 py-1.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-center"
             placeholder="Search or enter website name"
           />
         </div>
@@ -311,8 +311,8 @@ export const SafariApp: React.FC<SafariAppProps> = () => {
         <button
           onClick={handleBookmarkToggle}
           disabled={!goURL}
-          className={`p-2 hover:bg-gray-200 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${
-            currentlyBookmarked ? 'text-blue-500' : 'text-gray-600'
+          className={`p-2 theme-hover rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${
+            currentlyBookmarked ? 'text-blue-500' : 'theme-text-primary'
           }`}
           title={currentlyBookmarked ? 'Remove bookmark' : 'Add bookmark'}
         >
@@ -334,7 +334,7 @@ export const SafariApp: React.FC<SafariAppProps> = () => {
         {/* Bookmarks Toggle */}
         <button
           onClick={() => setShowBookmarks(!showBookmarks)}
-          className="p-2 hover:bg-gray-200 rounded transition-colors"
+          className="theme-text-primary p-2 theme-hover rounded transition-colors"
           title="Show bookmarks"
         >
           <svg
@@ -355,32 +355,33 @@ export const SafariApp: React.FC<SafariAppProps> = () => {
 
       {/* Bookmarks Panel */}
       {showBookmarks && (
-        <div className="bg-white border-b border-gray-300 max-h-64 overflow-y-auto">
+        <div className="max-h-64 overflow-y-auto" style={{ background: 'var(--theme-foreground)', borderBottom: '1px solid var(--theme-windowBorder)' }}>
           {bookmarks.length === 0 ? (
-            <div className="p-4 text-center text-gray-500 text-sm">
+            <div className="p-4 text-center theme-text-tertiary text-sm">
               No bookmarks yet. Click the bookmark icon to save pages.
             </div>
           ) : (
-            <div className="divide-y divide-gray-200">
+            <div style={{ borderTop: '1px solid var(--theme-windowBorder)' }}>
               {bookmarks.map(bookmark => (
                 <div
                   key={bookmark.id}
-                  className="flex items-center justify-between p-3 hover:bg-gray-50 group"
+                  className="flex items-center justify-between p-3 theme-hover group"
+                  style={{ borderBottom: '1px solid var(--theme-windowBorder)' }}
                 >
                   <button
                     onClick={() => handleBookmarkClick(bookmark.url)}
                     className="flex-1 text-left"
                   >
-                    <div className="text-sm font-medium text-gray-900 truncate">
+                    <div className="theme-text-primary text-sm font-medium truncate">
                       {bookmark.title}
                     </div>
-                    <div className="text-xs text-gray-500 truncate">
+                    <div className="theme-text-tertiary text-xs truncate">
                       {bookmark.url}
                     </div>
                   </button>
                   <button
                     onClick={() => removeBookmark(bookmark.id)}
-                    className="ml-2 p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="ml-2 p-1 theme-text-tertiary hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
                     title="Remove bookmark"
                   >
                     <svg
@@ -410,25 +411,25 @@ export const SafariApp: React.FC<SafariAppProps> = () => {
       {/* Content Area */}
       <div className="flex-1 relative overflow-hidden">
         {goURL === '' ? (
-          /* Start Page */
-          <div className="w-full h-full overflow-y-auto bg-gradient-to-br from-blue-50 to-purple-50">
+          // Start Page
+          <div className="w-full h-full overflow-y-auto" style={{ background: 'linear-gradient(to bottom right, var(--theme-foreground), var(--theme-background))' }}>
             <div className="max-w-4xl mx-auto py-12 px-6">
               {/* Favorites Section */}
               <div className="mb-12">
-                <h2 className="text-2xl font-semibold text-gray-800 mb-6">Favorites</h2>
+                <h2 className="theme-text-primary text-2xl font-semibold mb-6">Favorites</h2>
                 <div className="grid grid-cols-4 gap-6">
                   {favoriteSites.map(site => (
                     <button
                       key={site.id}
                       onClick={() => handleFavoriteClick(site.url, site.iframeFriendly)}
-                      className="flex flex-col items-center p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow group relative"
+                      className="theme-card flex flex-col items-center p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow group relative"
                     >
-                      <div className="w-16 h-16 flex items-center justify-center text-4xl mb-3 bg-gray-100 rounded-lg group-hover:scale-110 transition-transform">
+                      <div className="w-16 h-16 flex items-center justify-center text-4xl mb-3 rounded-lg group-hover:scale-110 transition-transform" style={{ background: 'var(--theme-buttonBackground)' }}>
                         {site.icon}
                       </div>
-                      <span className="text-sm font-medium text-gray-700">{site.title}</span>
+                      <span className="theme-text-primary text-sm font-medium">{site.title}</span>
                       {!site.iframeFriendly && (
-                        <span className="absolute top-2 right-2 text-xs text-gray-400" title="Opens in new tab">
+                        <span className="theme-text-tertiary absolute top-2 right-2 text-xs" title="Opens in new tab">
                           ↗
                         </span>
                       )}
@@ -440,26 +441,26 @@ export const SafariApp: React.FC<SafariAppProps> = () => {
               {/* Bookmarks Section */}
               {bookmarks.length > 0 && (
                 <div className="mb-12">
-                  <h2 className="text-2xl font-semibold text-gray-800 mb-6">Bookmarks</h2>
+                  <h2 className="theme-text-primary text-2xl font-semibold mb-6">Bookmarks</h2>
                   <div className="grid grid-cols-2 gap-4">
                     {bookmarks.map(bookmark => (
                       <button
                         key={bookmark.id}
                         onClick={() => handleBookmarkClick(bookmark.url)}
-                        className="flex items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow text-left group"
+                        className="theme-card flex items-center p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow text-left group"
                       >
                         <div className="flex-1 min-w-0">
-                          <div className="text-sm font-medium text-gray-900 truncate">
+                          <div className="theme-text-primary text-sm font-medium truncate">
                             {bookmark.title}
                           </div>
-                          <div className="text-xs text-gray-500 truncate">{bookmark.url}</div>
+                          <div className="theme-text-tertiary text-xs truncate">{bookmark.url}</div>
                         </div>
                         <button
                           onClick={e => {
                             e.stopPropagation()
                             removeBookmark(bookmark.id)
                           }}
-                          className="ml-2 p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="ml-2 p-1 theme-text-tertiary hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path
@@ -478,8 +479,8 @@ export const SafariApp: React.FC<SafariAppProps> = () => {
 
               {/* Privacy Report */}
               <div>
-                <h2 className="text-2xl font-semibold text-gray-800 mb-6">Privacy Report</h2>
-                <div className="bg-white rounded-xl shadow-sm p-6 flex items-center space-x-4">
+                <h2 className="theme-text-primary text-2xl font-semibold mb-6">Privacy Report</h2>
+                <div className="theme-card rounded-xl shadow-sm p-6 flex items-center space-x-4">
                   <div className="flex items-center space-x-3">
                     <svg className="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                       <path
@@ -488,11 +489,11 @@ export const SafariApp: React.FC<SafariAppProps> = () => {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <span className="text-3xl font-bold text-gray-900">
+                    <span className="theme-text-primary text-3xl font-bold">
                       {Math.floor(Math.random() * 99 + 1)}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-600">
+                  <p className="theme-text-secondary text-sm">
                     In the last seven days, Safari has prevented trackers from profiling you.
                   </p>
                 </div>
@@ -504,7 +505,7 @@ export const SafariApp: React.FC<SafariAppProps> = () => {
           <iframe
             ref={iframeRef}
             src={goURL}
-            className="w-full h-full border-0 bg-white"
+            className="theme-app-bg w-full h-full border-0"
             sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation allow-top-navigation-by-user-activation"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             onLoad={handleIframeLoad}

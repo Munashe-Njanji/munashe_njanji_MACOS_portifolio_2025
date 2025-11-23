@@ -33,14 +33,17 @@ export const useWindowStore = create<WindowStore>()(
       // Center window on screen with slight offset for each new window
       const windowCount = get().windows.length
       const offset = (windowCount % 10) * 30
+      const menuBarHeight = 24
+      const dockHeight = 64
+      const availableHeight = window.innerHeight - menuBarHeight - dockHeight
       const centerX = (window.innerWidth - defaultSizes[appType].w) / 2 + offset
-      const centerY = (window.innerHeight - defaultSizes[appType].h) / 2 + offset
+      const centerY = menuBarHeight + (availableHeight - defaultSizes[appType].h) / 2 + offset
 
       const newWindow: AppInstance = {
         id,
         appType,
         zIndex: maxZIndex + 1,
-        position: { x: Math.max(0, centerX), y: Math.max(0, centerY) },
+        position: { x: Math.max(0, centerX), y: Math.max(menuBarHeight, centerY) },
         size: defaultSizes[appType],
         state: {
           minimized: false,
@@ -162,12 +165,14 @@ export const useWindowStore = create<WindowStore>()(
             win.state.maximized = false
             // Size will be restored by the component that tracks previous size
           } else {
-            // Maximize
+            // Maximize - full height minus menu bar only
+            const menuBarHeight = 24
+            
             win.state.maximized = true
-            win.position = { x: 0, y: 0 }
+            win.position = { x: 0, y: menuBarHeight }
             win.size = {
               w: window.innerWidth,
-              h: window.innerHeight - 24, // Account for menu bar
+              h: window.innerHeight - menuBarHeight,
             }
           }
         }

@@ -17,14 +17,33 @@ export const WindowFrame: React.FC<WindowFrameProps & { windowId?: string }> = (
   const [isDragging, setIsDragging] = useState(false)
   const dragStartRef = useRef<{ x: number; y: number } | null>(null)
   const positionStartRef = useRef<{ x: number; y: number } | null>(null)
-  const { updateWindowPosition, focusWindow } = useWindowStore()
+  const previousSizeRef = useRef<{ position: { x: number; y: number }; size: { w: number; h: number } } | null>(null)
+  const { updateWindowPosition, focusWindow, maximizeWindow } = useWindowStore()
 
   const handleDoubleClick = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation() // Prevent event from bubbling to Desktop
-      onMaximize()
+      
+      // If maximized, restore to previous size
+      if (appInstance.state.maximized && previousSizeRef.current && windowId) {
+        // Restore previous size
+        const { position, size } = previousSizeRef.current
+        updateWindowPosition(windowId, position)
+        useWindowStore.getState().updateWindowSize(windowId, size)
+        maximizeWindow(windowId) // Toggle off maximized state
+        previousSizeRef.current = null
+      } else {
+        // Save current size before maximizing
+        if (windowId && !appInstance.state.maximized) {
+          previousSizeRef.current = {
+            position: { ...appInstance.position },
+            size: { ...appInstance.size }
+          }
+        }
+        onMaximize()
+      }
     },
-    [onMaximize]
+    [onMaximize, appInstance.state.maximized, appInstance.position, appInstance.size, windowId, updateWindowPosition, maximizeWindow]
   )
 
   const handleClick = useCallback(() => {
@@ -51,14 +70,35 @@ export const WindowFrame: React.FC<WindowFrameProps & { windowId?: string }> = (
       e.preventDefault()
       e.stopPropagation()
 
-      dragStartRef.current = { x: e.clientX, y: e.clientY }
-      positionStartRef.current = { x: appInstance.position.x, y: appInstance.position.y }
-      setIsDragging(true)
+      // If window is maximized and user starts dragging, restore it first
+      if (appInstance.state.maximized && previousSizeRef.current && windowId) {
+        const { position, size } = previousSizeRef.current
+        
+        // Calculate new position so window follows cursor
+        const mouseXPercent = e.clientX / window.innerWidth
+        const newX = e.clientX - (size.w * mouseXPercent)
+        const newY = e.clientY - 14 // Offset for title bar height
+        
+        // Restore size
+        useWindowStore.getState().updateWindowSize(windowId, size)
+        maximizeWindow(windowId) // Toggle off maximized state
+        
+        // Set new position under cursor
+        dragStartRef.current = { x: e.clientX, y: e.clientY }
+        positionStartRef.current = { x: newX, y: Math.max(24, newY) }
+        updateWindowPosition(windowId, { x: newX, y: Math.max(24, newY) })
+        previousSizeRef.current = null
+        setIsDragging(true)
+      } else {
+        dragStartRef.current = { x: e.clientX, y: e.clientY }
+        positionStartRef.current = { x: appInstance.position.x, y: appInstance.position.y }
+        setIsDragging(true)
+      }
 
       // Focus window
       handleClick()
     },
-    [appInstance.position, handleClick]
+    [appInstance.position, appInstance.state.maximized, handleClick, windowId, maximizeWindow, updateWindowPosition]
   )
 
   const handleMouseMove = useCallback(
@@ -69,18 +109,36 @@ export const WindowFrame: React.FC<WindowFrameProps & { windowId?: string }> = (
       const deltaY = e.clientY - dragStartRef.current.y
 
       const newX = positionStartRef.current.x + deltaX
-      const newY = Math.max(0, positionStartRef.current.y + deltaY) // Keep below menu bar
+      const newY = Math.max(24, positionStartRef.current.y + deltaY) // Keep below menu bar (24px height)
 
       updateWindowPosition(windowId, { x: newX, y: newY })
     },
     [isDragging, windowId, updateWindowPosition]
   )
 
-  const handleMouseUp = useCallback(() => {
+  const handleMouseUp = useCallback((e: MouseEvent) => {
+    if (!isDragging || !windowId) {
+      setIsDragging(false)
+      dragStartRef.current = null
+      positionStartRef.current = null
+      return
+    }
+
+    // Check if window was dragged to the top (menu bar area)
+    if (e.clientY <= 24 && !appInstance.state.maximized) {
+      // Save current size before maximizing
+      previousSizeRef.current = {
+        position: { ...appInstance.position },
+        size: { ...appInstance.size }
+      }
+      // Maximize the window
+      maximizeWindow(windowId)
+    }
+
     setIsDragging(false)
     dragStartRef.current = null
     positionStartRef.current = null
-  }, [])
+  }, [isDragging, windowId, appInstance.state.maximized, appInstance.position, appInstance.size, maximizeWindow])
 
   // Add/remove global listeners
   React.useEffect(() => {
@@ -113,10 +171,10 @@ export const WindowFrame: React.FC<WindowFrameProps & { windowId?: string }> = (
         ${isMobile && appInstance.state.maximized ? '!left-0 !top-8 !w-full !h-[calc(100vh-8rem)]' : ''}
       `}
       style={{
-        left: isMobile && appInstance.state.maximized ? 0 : appInstance.position.x,
-        top: isMobile && appInstance.state.maximized ? 32 : appInstance.position.y,
-        width: isMobile && appInstance.state.maximized ? '100%' : appInstance.size.w,
-        height: isMobile && appInstance.state.maximized ? 'calc(100vh - 8rem)' : appInstance.size.h,
+        left: appInstance.state.maximized ? 0 : appInstance.position.x,
+        top: appInstance.state.maximized ? 24 : Math.max(24, appInstance.position.y), // Always keep below menu bar
+        width: appInstance.state.maximized ? '100%' : appInstance.size.w,
+        height: appInstance.state.maximized ? 'calc(100vh - 24px)' : appInstance.size.h, // Full height minus menu bar only
         zIndex: appInstance.zIndex,
         userSelect: isDragging ? 'none' : 'auto',
       }}

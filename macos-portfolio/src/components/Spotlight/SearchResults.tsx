@@ -8,11 +8,13 @@ interface SearchResultsProps {
 
 export const SearchResults: React.FC<SearchResultsProps> = ({ results, onClose }) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [prevResultsLength, setPrevResultsLength] = useState(results.length)
 
-  // Reset selection when results change
-  useEffect(() => {
+  // Reset selection when results change (using derived state pattern)
+  if (results.length !== prevResultsLength) {
     setSelectedIndex(0)
-  }, [results])
+    setPrevResultsLength(results.length)
+  }
 
   // Keyboard navigation
   useEffect(() => {

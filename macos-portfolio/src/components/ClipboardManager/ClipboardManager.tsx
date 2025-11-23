@@ -26,6 +26,17 @@ export const ClipboardManager: React.FC = () => {
     }
   }, [entries.length, selectedIndex])
 
+  // Handle paste action
+  const handlePaste = useCallback(async (content: string) => {
+    try {
+      // Write to clipboard
+      await navigator.clipboard.writeText(content)
+      setIsOpen(false)
+    } catch (err) {
+      console.error('Failed to write to clipboard:', err)
+    }
+  }, [])
+
   // Handle keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -64,7 +75,7 @@ export const ClipboardManager: React.FC = () => {
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, entries, selectedIndex])
+  }, [isOpen, entries, selectedIndex, handlePaste])
 
   // Listen for copy and cut events
   useEffect(() => {
@@ -94,16 +105,6 @@ export const ClipboardManager: React.FC = () => {
       document.removeEventListener('cut', handleCopyOrCut)
     }
   }, [addEntry])
-
-  const handlePaste = useCallback(async (content: string) => {
-    try {
-      // Write to clipboard
-      await navigator.clipboard.writeText(content)
-      setIsOpen(false)
-    } catch (err) {
-      console.error('Failed to write to clipboard:', err)
-    }
-  }, [])
 
   const handleClickOutside = useCallback((e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {

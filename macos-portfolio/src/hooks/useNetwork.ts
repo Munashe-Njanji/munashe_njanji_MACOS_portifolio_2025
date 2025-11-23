@@ -66,9 +66,8 @@ export const useNetwork = (): NetworkState => {
     const connection = nav.connection || nav.mozConnection || nav.webkitConnection
 
     if (connection) {
-      setIsSupported(true)
-
       const updateNetworkInfo = () => {
+        setIsSupported(true)
         const effectiveTypeValue = connection.effectiveType || '4g'
         const downlinkValue = connection.downlink || 10
         const rttValue = connection.rtt || 50

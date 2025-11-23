@@ -1,15 +1,40 @@
-import React, { useRef, useEffect, useCallback } from 'react'
+import React, { useRef, useEffect, useCallback, useLayoutEffect, useState } from 'react'
 import type { ContextMenuProps } from '@/types/components'
 import { createContextMenuAnimation } from '@/utils/animations'
 
 export const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, items, onClose }) => {
   const menuRef = useRef<HTMLDivElement>(null)
+  const [adjustedPosition, setAdjustedPosition] = useState({ x, y })
 
   useEffect(() => {
     if (menuRef.current) {
       createContextMenuAnimation(menuRef.current)
     }
   }, [])
+
+  // Adjust position after render to keep menu within viewport
+  useLayoutEffect(() => {
+    if (!menuRef.current) return
+
+    const rect = menuRef.current.getBoundingClientRect()
+    const viewportWidth = window.innerWidth
+    const viewportHeight = window.innerHeight
+
+    let adjustedX = x
+    let adjustedY = y
+
+    // Adjust horizontal position
+    if (x + rect.width > viewportWidth) {
+      adjustedX = viewportWidth - rect.width - 10
+    }
+
+    // Adjust vertical position
+    if (y + rect.height > viewportHeight) {
+      adjustedY = viewportHeight - rect.height - 10
+    }
+
+    setAdjustedPosition({ x: Math.max(10, adjustedX), y: Math.max(10, adjustedY) })
+  }, [x, y])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -38,30 +63,6 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, items, onClose }
       item.action()
     }
   }, [])
-
-  // Adjust position to keep menu within viewport
-  const adjustedPosition = React.useMemo(() => {
-    if (!menuRef.current) return { x, y }
-
-    const rect = menuRef.current.getBoundingClientRect()
-    const viewportWidth = window.innerWidth
-    const viewportHeight = window.innerHeight
-
-    let adjustedX = x
-    let adjustedY = y
-
-    // Adjust horizontal position
-    if (x + rect.width > viewportWidth) {
-      adjustedX = viewportWidth - rect.width - 10
-    }
-
-    // Adjust vertical position
-    if (y + rect.height > viewportHeight) {
-      adjustedY = viewportHeight - rect.height - 10
-    }
-
-    return { x: Math.max(10, adjustedX), y: Math.max(10, adjustedY) }
-  }, [x, y])
 
   return (
     <div
