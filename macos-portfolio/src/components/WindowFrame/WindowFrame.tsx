@@ -94,24 +94,29 @@ export const WindowFrame: React.FC<WindowFrameProps & { windowId?: string }> = (
     }
   }, [isDragging, handleMouseMove, handleMouseUp])
 
+  // Check if mobile
+  const isMobile = window.innerWidth < 768
+
   return (
     <div
       ref={windowRef}
       className={`
-        absolute bg-white rounded-[10px] overflow-hidden flex flex-col
-        ${isDragging ? 'cursor-grabbing' : ''}
+        theme-window
+        absolute rounded-[10px] md:rounded-[10px] overflow-hidden flex flex-col
+        ${isDragging ? 'cursor-grabbing dragging' : 'transition-colors duration-300'}
         ${
           appInstance.state.focused
-            ? 'shadow-[0_20px_60px_rgba(0,0,0,0.25),0_4px_12px_rgba(0,0,0,0.15)]'
-            : 'shadow-[0_10px_40px_rgba(0,0,0,0.15),0_2px_8px_rgba(0,0,0,0.1)]'
+            ? 'shadow-[0_20px_60px_var(--theme-shadowHeavy),0_4px_12px_var(--theme-shadowMedium)]'
+            : 'shadow-[0_10px_40px_var(--theme-shadowMedium),0_2px_8px_var(--theme-shadowLight)]'
         }
         ${appInstance.state.minimized ? 'opacity-0 pointer-events-none' : ''}
+        ${isMobile && appInstance.state.maximized ? '!left-0 !top-8 !w-full !h-[calc(100vh-8rem)]' : ''}
       `}
       style={{
-        left: appInstance.position.x,
-        top: appInstance.position.y,
-        width: appInstance.size.w,
-        height: appInstance.size.h,
+        left: isMobile && appInstance.state.maximized ? 0 : appInstance.position.x,
+        top: isMobile && appInstance.state.maximized ? 32 : appInstance.position.y,
+        width: isMobile && appInstance.state.maximized ? '100%' : appInstance.size.w,
+        height: isMobile && appInstance.state.maximized ? 'calc(100vh - 8rem)' : appInstance.size.h,
         zIndex: appInstance.zIndex,
         userSelect: isDragging ? 'none' : 'auto',
       }}

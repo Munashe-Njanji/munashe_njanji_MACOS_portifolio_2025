@@ -170,3 +170,243 @@ body {
 .cursor-default {
   cursor: default;
 }
+
+/* Responsive Design System */
+@media (max-width: 768px) {
+  /* Mobile-specific adjustments */
+  :root {
+    --spacing-titlebar-height: 32px;
+    --spacing-dock-height: 56px;
+    --spacing-menubar-height: 32px;
+  }
+
+  /* Prevent horizontal scroll on mobile */
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: fixed;
+  }
+
+  /* Touch-friendly tap targets */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Disable hover effects on touch devices */
+  @media (hover: none) {
+    .hover\:bg-gray-200\/50:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+/* Tablet breakpoint */
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root {
+    --spacing-titlebar-height: 30px;
+    --spacing-dock-height: 60px;
+    --spacing-menubar-height: 28px;
+  }
+}
+
+/* Prevent text selection on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+}
+
+/* Theme System - Dynamic CSS Variables */
+:root {
+  /* Default theme colors (will be overridden by JS) */
+  --theme-background: #F0F0F0;
+  --theme-foreground: #FFFFFF;
+  --theme-primary: #007AFF;
+  --theme-accent: #007AFF;
+  --theme-menuBar: rgba(255, 255, 255, 0.8);
+  --theme-menuBarText: #1F2937;
+  --theme-dock: rgba(255, 255, 255, 0.3);
+  --theme-dockGlow: rgba(0, 0, 0, 0.1);
+  --theme-windowChrome: #ECECEC;
+  --theme-windowBackground: #FFFFFF;
+  --theme-windowBorder: rgba(0, 0, 0, 0.1);
+  --theme-textPrimary: #1F2937;
+  --theme-textSecondary: #6B7280;
+  --theme-textTertiary: #9CA3AF;
+  --theme-buttonBackground: #E5E7EB;
+  --theme-buttonHover: #D1D5DB;
+  --theme-buttonActive: #9CA3AF;
+  --theme-shadowLight: rgba(0, 0, 0, 0.1);
+  --theme-shadowMedium: rgba(0, 0, 0, 0.15);
+  --theme-shadowHeavy: rgba(0, 0, 0, 0.25);
+  --theme-selection: rgba(0, 122, 255, 0.3);
+  --theme-focus: #007AFF;
+  --theme-error: #FF3B30;
+  --theme-warning: #FF9500;
+  --theme-success: #34C759;
+  
+  /* Effects */
+  --theme-blur: 40px;
+  --theme-transparency: 0.8;
+}
+
+/* Apply theme colors to body */
+body {
+  background: var(--theme-background);
+  color: var(--theme-textPrimary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme-aware components */
+.theme-menubar {
+  background: var(--theme-menuBar);
+  color: var(--theme-menuBarText);
+  backdrop-filter: blur(var(--theme-blur));
+  -webkit-backdrop-filter: blur(var(--theme-blur));
+}
+
+.theme-dock {
+  background: var(--theme-dock);
+  backdrop-filter: blur(var(--theme-blur));
+  -webkit-backdrop-filter: blur(var(--theme-blur));
+}
+
+.theme-window {
+  background: var(--theme-windowBackground);
+  border-color: var(--theme-windowBorder);
+}
+
+.theme-window-chrome {
+  background: var(--theme-windowChrome);
+  border-bottom: 1px solid var(--theme-windowBorder);
+}
+
+.theme-text-primary {
+  color: var(--theme-textPrimary);
+}
+
+.theme-text-secondary {
+  color: var(--theme-textSecondary);
+}
+
+.theme-text-tertiary {
+  color: var(--theme-textTertiary);
+}
+
+.theme-button {
+  background: var(--theme-buttonBackground);
+  color: var(--theme-textPrimary);
+}
+
+.theme-button:hover {
+  background: var(--theme-buttonHover);
+}
+
+.theme-button:active {
+  background: var(--theme-buttonActive);
+}
+
+.theme-accent {
+  color: var(--theme-accent);
+}
+
+.theme-accent-bg {
+  background: var(--theme-accent);
+}
+
+.theme-focus:focus-visible {
+  outline-color: var(--theme-focus);
+}
+
+/* Selection with theme color */
+::selection {
+  background: var(--theme-selection);
+  color: var(--theme-textPrimary);
+}
+
+/* Glow effects for developer themes */
+[data-glow="true"] .theme-dock {
+  box-shadow: 0 0 20px var(--theme-dockGlow), 0 8px 32px var(--theme-shadowHeavy);
+}
+
+[data-glow="true"] .theme-window {
+  box-shadow: 0 0 30px var(--theme-windowBorder), 0 20px 60px var(--theme-shadowHeavy);
+}
+
+/* Disable shadows when theme says so */
+[data-shadows="false"] .theme-window,
+[data-shadows="false"] .theme-dock {
+  box-shadow: none !important;
+}
+
+/* Disable animations when theme says so */
+[data-animations="false"] * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Disable transitions during drag for performance */
+.dragging,
+.dragging * {
+  transition: none !important;
+}
+
+/* App Content Theming */
+.theme-app-bg {
+  background: var(--theme-windowBackground);
+  color: var(--theme-textPrimary);
+}
+
+.theme-sidebar {
+  background: var(--theme-foreground);
+  border-color: var(--theme-windowBorder);
+}
+
+.theme-card {
+  background: var(--theme-foreground);
+  border-color: var(--theme-windowBorder);
+  color: var(--theme-textPrimary);
+}
+
+.theme-input {
+  background: var(--theme-foreground);
+  border-color: var(--theme-windowBorder);
+  color: var(--theme-textPrimary);
+}
+
+.theme-input:focus {
+  border-color: var(--theme-focus);
+  outline-color: var(--theme-focus);
+}
+
+.theme-hover:hover {
+  background: var(--theme-buttonHover);
+}
+
+/* Dark mode specific adjustments */
+[data-theme="dark"] .theme-card,
+[data-theme="oled"] .theme-card,
+[data-theme="developer"] .theme-card {
+  box-shadow: 0 1px 3px var(--theme-shadowLight);
+}
+
+/* Light mode specific adjustments */
+[data-theme="light"] .theme-card,
+[data-theme="high-contrast"] .theme-card {
+  box-shadow: 0 1px 2px var(--theme-shadowLight);
+}
+
+/* Scrollbar theming */
+[data-theme="dark"] ::-webkit-scrollbar-thumb,
+[data-theme="oled"] ::-webkit-scrollbar-thumb,
+[data-theme="developer"] ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover,
+[data-theme="oled"] ::-webkit-scrollbar-thumb:hover,
+[data-theme="developer"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}

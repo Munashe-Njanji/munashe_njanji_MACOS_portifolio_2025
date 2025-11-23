@@ -105,11 +105,12 @@ export const Dock: React.FC<DockProps> = ({
 
   const getDockClasses = () => {
     const baseClasses = `
+      theme-dock
       fixed flex items-end justify-center
-      bg-white/20 backdrop-blur-md rounded-2xl
+      rounded-2xl
       border border-white/20
       shadow-lg
-      transition-all duration-300 ease-out
+      transition-[transform,opacity,background-color] duration-300 ease-out
       overflow-visible
       origin-bottom
     `
@@ -119,16 +120,16 @@ export const Dock: React.FC<DockProps> = ({
 
     switch (position) {
       case 'left':
-        return `${baseClasses} left-2 top-1/2 -translate-y-1/2 flex-col h-auto w-16 py-4 ${
+        return `${baseClasses} left-1 md:left-2 top-1/2 -translate-y-1/2 flex-col h-auto w-12 md:w-16 py-2 md:py-4 ${
           hideTransform ? '-translate-x-20 opacity-0' : ''
         }`
       case 'right':
-        return `${baseClasses} right-2 top-1/2 -translate-y-1/2 flex-col h-auto w-16 py-4 ${
+        return `${baseClasses} right-1 md:right-2 top-1/2 -translate-y-1/2 flex-col h-auto w-12 md:w-16 py-2 md:py-4 ${
           hideTransform ? 'translate-x-20 opacity-0' : ''
         }`
       case 'bottom':
       default:
-        return `${baseClasses} bottom-2 left-1/2 -translate-x-1/2 w-auto h-16 px-3 pb-2 ${
+        return `${baseClasses} bottom-1 md:bottom-2 left-1/2 -translate-x-1/2 w-auto h-12 md:h-16 px-2 md:px-3 pb-1 md:pb-2 ${
           hideTransform ? 'translate-y-20 opacity-0' : ''
         }`
     }
@@ -143,10 +144,10 @@ export const Dock: React.FC<DockProps> = ({
     switch (position) {
       case 'left':
       case 'right':
-        return 'flex flex-col space-y-2'
+        return 'flex flex-col space-y-1 md:space-y-2'
       case 'bottom':
       default:
-        return 'flex space-x-1.5'
+        return 'flex space-x-1 md:space-x-1.5'
     }
   }
 

@@ -71,7 +71,7 @@ export const Desktop: React.FC<DesktopProps> = ({ wallpaper, children }) => {
 
   return (
     <div
-      className="relative w-full h-full overflow-hidden"
+      className="relative w-full h-full overflow-hidden touch-none"
       style={getWallpaperStyle()}
       onDoubleClick={handleDoubleClick}
       onContextMenu={handleContextMenu}

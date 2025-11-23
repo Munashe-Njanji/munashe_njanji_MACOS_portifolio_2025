@@ -7,15 +7,16 @@ interface ToolbarProps {
 
 export const Toolbar: React.FC<ToolbarProps> = ({ onCreateFile, onCreateFolder }) => {
   return (
-    <div className="h-12 px-4 flex items-center space-x-2 border-b border-gray-200 bg-gray-50">
+    <div className="h-12 px-4 flex items-center space-x-2 border-b theme-sidebar" style={{ borderColor: 'var(--theme-windowBorder)' }}>
       <button
         onClick={onCreateFolder}
         className="
+          theme-button
           px-3 py-1.5 text-sm font-medium
-          bg-white border border-gray-300 rounded
-          hover:bg-gray-50 active:bg-gray-100
+          border rounded
           transition-colors
         "
+        style={{ borderColor: 'var(--theme-windowBorder)' }}
         title="New Folder"
       >
         📁 New Folder
@@ -24,11 +25,12 @@ export const Toolbar: React.FC<ToolbarProps> = ({ onCreateFile, onCreateFolder }
       <button
         onClick={() => onCreateFile('file')}
         className="
+          theme-button
           px-3 py-1.5 text-sm font-medium
-          bg-white border border-gray-300 rounded
-          hover:bg-gray-50 active:bg-gray-100
+          border rounded
           transition-colors
         "
+        style={{ borderColor: 'var(--theme-windowBorder)' }}
         title="New File"
       >
         📄 New File
@@ -40,8 +42,9 @@ export const Toolbar: React.FC<ToolbarProps> = ({ onCreateFile, onCreateFolder }
       <div className="flex items-center space-x-1">
         <button
           className="
-            p-1.5 rounded hover:bg-gray-200
-            transition-colors text-gray-600
+            theme-hover theme-text-secondary
+            p-1.5 rounded
+            transition-colors
           "
           title="List View"
         >
@@ -52,8 +55,9 @@ export const Toolbar: React.FC<ToolbarProps> = ({ onCreateFile, onCreateFolder }
 
         <button
           className="
-            p-1.5 rounded hover:bg-gray-200
-            transition-colors text-gray-600
+            theme-hover theme-text-secondary
+            p-1.5 rounded
+            transition-colors
           "
           title="Grid View"
         >

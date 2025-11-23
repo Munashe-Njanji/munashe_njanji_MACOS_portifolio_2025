@@ -173,7 +173,7 @@ export const FinderApp: React.FC<FinderAppProps> = ({ appInstance: _appInstance 
   )
 
   return (
-    <div className="w-full h-full flex flex-col bg-white">
+    <div className="theme-app-bg w-full h-full flex flex-col">
       {/* Toolbar */}
       <Toolbar onCreateFile={handleCreateFile} onCreateFolder={() => handleCreateFile('folder')} />
 

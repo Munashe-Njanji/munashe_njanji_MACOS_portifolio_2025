@@ -12,10 +12,9 @@ export const TitleBar: React.FC<TitleBarProps> = ({
   return (
     <div
       className={`
+        theme-window-chrome
         h-7 px-3 flex items-center justify-between
-        border-b border-gray-200/50
-        transition-colors duration-200
-        ${isFocused ? 'bg-[#ececec]' : 'bg-[#f6f6f6]'}
+        transition-colors duration-300
       `}
     >
       {/* Traffic lights */}
@@ -29,10 +28,10 @@ export const TitleBar: React.FC<TitleBarProps> = ({
       {/* Title */}
       <div
         className={`
+        theme-text-primary
         absolute left-1/2 -translate-x-1/2
         text-sm font-medium
-        transition-colors duration-200
-        ${isFocused ? 'text-gray-800' : 'text-gray-500'}
+        transition-colors duration-300
       `}
       >
         {title}

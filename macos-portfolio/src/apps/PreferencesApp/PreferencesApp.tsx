@@ -2,16 +2,28 @@ import React, { useState } from 'react'
 import { usePreferencesStore } from '@/store'
 import { useBattery } from '@/hooks'
 import type { AppInstance } from '@/types'
+import type { ThemeMode, AccentColor, DeveloperTheme } from '@/types/theme'
+import { themePresets, accentColors } from '@/utils/themePresets'
 
 interface PreferencesAppProps {
   appInstance: AppInstance
 }
 
 export const PreferencesApp: React.FC<PreferencesAppProps> = () => {
-  const { wallpaper, dockPosition, updatePreference } = usePreferencesStore()
+  const {
+    wallpaper,
+    dockPosition,
+    themeMode,
+    accentColor,
+    developerTheme,
+    setThemeMode,
+    setAccentColor,
+    setDeveloperTheme,
+    updatePreference,
+  } = usePreferencesStore()
   const [activeTab, setActiveTab] = useState<
-    'general' | 'appearance' | 'dock' | 'battery' | 'accessibility'
-  >('general')
+    'general' | 'appearance' | 'themes' | 'dock' | 'battery' | 'accessibility'
+  >('themes')
   const { level: batteryLevel, isCharging, isSupported } = useBattery()
   const [batteryHealth] = useState('Normal')
 
@@ -24,22 +36,56 @@ export const PreferencesApp: React.FC<PreferencesAppProps> = () => {
     { id: 'gradient-ocean', name: 'Ocean' },
   ]
 
+  const themeModes: { id: ThemeMode; name: string; description: string; icon: string }[] = [
+    { id: 'light', name: 'Light', description: 'Classic light theme', icon: '☀️' },
+    { id: 'dark', name: 'Dark', description: 'Dark theme for low-light', icon: '🌙' },
+    { id: 'auto', name: 'Auto', description: 'Follows system preference', icon: '🔄' },
+    {
+      id: 'high-contrast',
+      name: 'High Contrast',
+      description: 'Maximum contrast',
+      icon: '◐',
+    },
+    { id: 'oled', name: 'OLED Black', description: 'True black for OLED', icon: '⬛' },
+    { id: 'developer', name: 'Developer', description: 'Code editor themes', icon: '💻' },
+  ]
+
+  const developerThemes: { id: DeveloperTheme; name: string; description: string }[] = [
+    { id: 'neon-matrix', name: 'Neon Matrix', description: 'Cyberpunk green aesthetic' },
+    { id: 'monokai-pro', name: 'Monokai Pro', description: 'Popular editor theme' },
+    { id: 'dracula-ui', name: 'Dracula UI', description: 'Dark with vibrant colors' },
+  ]
+
   return (
-    <div className="w-full h-full flex bg-gray-50">
+    <div className="theme-app-bg w-full h-full flex">
       {/* Sidebar */}
-      <div className="w-48 bg-white border-r border-gray-200 p-4">
+      <div className="theme-sidebar w-48 border-r p-4">
         <div className="space-y-1">
           <button
             onClick={() => setActiveTab('general')}
             className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
               activeTab === 'general'
-                ? 'bg-blue-500 text-white'
-                : 'text-gray-700 hover:bg-gray-100'
+                ? 'theme-accent-bg text-white'
+                : 'theme-text-primary theme-hover'
             }`}
           >
             <div className="flex items-center space-x-2">
               <span>⚙️</span>
               <span className="text-sm font-medium">General</span>
+            </div>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('themes')}
+            className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+              activeTab === 'themes'
+                ? 'theme-accent-bg text-white'
+                : 'theme-text-primary theme-hover'
+            }`}
+          >
+            <div className="flex items-center space-x-2">
+              <span>🎨</span>
+              <span className="text-sm font-medium">Themes</span>
             </div>
           </button>
 
@@ -52,8 +98,8 @@ export const PreferencesApp: React.FC<PreferencesAppProps> = () => {
             }`}
           >
             <div className="flex items-center space-x-2">
-              <span>🎨</span>
-              <span className="text-sm font-medium">Appearance</span>
+              <span>🖼️</span>
+              <span className="text-sm font-medium">Wallpaper</span>
             </div>
           </button>
 
@@ -125,6 +171,139 @@ export const PreferencesApp: React.FC<PreferencesAppProps> = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'themes' && (
+          <div className="max-w-4xl">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Theme Customization</h2>
+
+            {/* Theme Mode Selection */}
+            <div className="theme-card rounded-xl p-6 shadow-sm mb-6">
+              <h3 className="text-sm font-semibold theme-text-primary mb-4">Theme Mode</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {themeModes.map(mode => (
+                  <button
+                    key={mode.id}
+                    onClick={() => setThemeMode(mode.id)}
+                    className={`p-4 rounded-lg border-2 transition-all text-left ${
+                      themeMode === mode.id
+                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                        : 'theme-card hover:border-gray-400'
+                    }`}
+                    style={{
+                      borderColor: themeMode === mode.id ? 'var(--theme-accent)' : undefined,
+                    }}
+                  >
+                    <div className="text-3xl mb-2">{mode.icon}</div>
+                    <div className="font-semibold theme-text-primary mb-1">{mode.name}</div>
+                    <div className="text-xs theme-text-secondary">{mode.description}</div>
+                    {themeMode === mode.id && (
+                      <div className="mt-2 theme-accent text-xs font-medium">✓ Active</div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Developer Themes (only show if developer mode selected) */}
+            {themeMode === 'developer' && (
+              <div className="bg-white rounded-xl p-6 shadow-sm mb-6">
+                <h3 className="text-sm font-semibold text-gray-700 mb-4">Developer Themes</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {developerThemes.map(theme => (
+                    <button
+                      key={theme.id}
+                      onClick={() => setDeveloperTheme(theme.id)}
+                      className={`p-4 rounded-lg border-2 transition-all text-left ${
+                        developerTheme === theme.id
+                          ? 'border-purple-500 bg-purple-50'
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <div className="font-semibold text-gray-900 mb-1">{theme.name}</div>
+                      <div className="text-xs text-gray-600 mb-2">{theme.description}</div>
+                      {developerTheme === theme.id && (
+                        <div className="text-purple-600 text-xs font-medium">✓ Active</div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Accent Color Selection */}
+            <div className="bg-white rounded-xl p-6 shadow-sm mb-6">
+              <h3 className="text-sm font-semibold text-gray-700 mb-4">Accent Color</h3>
+              <div className="flex flex-wrap gap-3">
+                {(Object.keys(accentColors) as AccentColor[]).map(color => (
+                  <button
+                    key={color}
+                    onClick={() => setAccentColor(color)}
+                    className={`relative w-16 h-16 rounded-lg transition-all ${
+                      accentColor === color ? 'ring-4 ring-offset-2 ring-blue-500' : ''
+                    }`}
+                    style={{ backgroundColor: accentColors[color] }}
+                    title={color.charAt(0).toUpperCase() + color.slice(1)}
+                  >
+                    {accentColor === color && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-white text-2xl drop-shadow-lg">✓</span>
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-gray-500 mt-3">
+                Accent color affects buttons, links, and interactive elements throughout the system
+              </p>
+            </div>
+
+            {/* Theme Presets */}
+            <div className="bg-white rounded-xl p-6 shadow-sm">
+              <h3 className="text-sm font-semibold text-gray-700 mb-4">Quick Presets</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {themePresets.map(preset => (
+                  <button
+                    key={preset.id}
+                    onClick={() => {
+                      setThemeMode(preset.mode)
+                      setAccentColor(preset.accentColor)
+                      if (preset.developerTheme) {
+                        setDeveloperTheme(preset.developerTheme)
+                      }
+                    }}
+                    className="p-4 rounded-lg border-2 border-gray-200 hover:border-gray-300 transition-all text-left group"
+                  >
+                    <div className="font-medium text-gray-900 mb-1 text-sm">{preset.name}</div>
+                    <div className="text-xs text-gray-600">{preset.description}</div>
+                    <div className="mt-3 flex space-x-1">
+                      <div
+                        className="w-6 h-6 rounded"
+                        style={{ backgroundColor: preset.colors.primary }}
+                      />
+                      <div
+                        className="w-6 h-6 rounded"
+                        style={{ backgroundColor: preset.colors.background }}
+                      />
+                      <div
+                        className="w-6 h-6 rounded"
+                        style={{ backgroundColor: preset.colors.windowChrome }}
+                      />
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Info Box */}
+            <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <p className="text-sm text-gray-700">
+                <strong>💡 Tip:</strong> Your theme preference is saved in cookies and will be
+                remembered on your next visit. The theme applies system-wide to all windows, the
+                Dock, MenuBar, and UI elements.
+              </p>
             </div>
           </div>
         )}

@@ -122,23 +122,26 @@ export const MenuBar: React.FC<MenuBarProps> = ({
   return (
     <div
       className="
-      fixed top-0 left-0 right-0 z-50
-      h-6 bg-white/80 backdrop-blur-md
+      theme-menubar
+      fixed top-0 left-0 right-0 z-[9999]
+      h-6
       border-b border-gray-200/50
       flex items-center justify-between
-      px-4 text-sm font-medium text-gray-800
+      px-2 md:px-4 text-xs md:text-sm font-medium
       select-none
+      transition-colors duration-300
     "
     >
       {/* Left side - App menu */}
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-1 md:space-x-3 flex-shrink-0">
         <div className="relative" ref={appleMenuRef}>
           <button
             onClick={() => setAppleMenuOpen(!appleMenuOpen)}
-            className="flex items-center space-x-2 px-2 py-1 rounded hover:bg-gray-200/50 transition-colors"
+            className="flex items-center space-x-1 md:space-x-2 px-1 md:px-2 py-1 rounded theme-hover transition-colors"
           >
             <svg
-              className="w-4 h-4 text-gray-800"
+              className="w-3 h-3 md:w-4 md:h-4"
+              style={{ color: 'var(--theme-menuBarText)' }}
               fill="currentColor"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
@@ -149,76 +152,76 @@ export const MenuBar: React.FC<MenuBarProps> = ({
 
           {/* Apple Menu Dropdown */}
           {appleMenuOpen && (
-            <div className="absolute left-0 top-full mt-1 w-56 bg-white/95 backdrop-blur-md rounded-lg shadow-lg border border-gray-200/50 py-1 z-50">
+            <div className="theme-window absolute left-0 top-full mt-1 w-56 rounded-lg shadow-lg py-1 z-[10000]" style={{ backdropFilter: 'blur(20px)' }}>
               {/* About */}
               <button
                 onClick={handleAboutThisMac}
-                className="w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
+                className="theme-text-primary w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
               >
                 About This Mac
               </button>
 
-              <div className="h-px bg-gray-200 my-1" />
+              <div className="h-px my-1" style={{ background: 'var(--theme-windowBorder)' }} />
 
               {/* System Preferences & App Store */}
               <button
                 onClick={handleSystemPreferences}
-                className="w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
+                className="theme-text-primary w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
               >
                 System Preferences...
               </button>
-              <button className="w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors">
+              <button className="theme-text-primary w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors">
                 App Store...
               </button>
 
-              <div className="h-px bg-gray-200 my-1" />
+              <div className="h-px my-1" style={{ background: 'var(--theme-windowBorder)' }} />
 
               {/* Recent Items */}
-              <button className="w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors">
+              <button className="theme-text-primary w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors">
                 Recent Items
               </button>
 
-              <div className="h-px bg-gray-200 my-1" />
+              <div className="h-px my-1" style={{ background: 'var(--theme-windowBorder)' }} />
 
               {/* Force Quit */}
-              <button className="w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors">
+              <button className="theme-text-primary w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors">
                 Force Quit...
               </button>
 
-              <div className="h-px bg-gray-200 my-1" />
+              <div className="h-px my-1" style={{ background: 'var(--theme-windowBorder)' }} />
 
               {/* Sleep, Restart, Shut Down */}
               <button
                 onClick={handleSleep}
-                className="w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
+                className="theme-text-primary w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
               >
                 Sleep
               </button>
               <button
                 onClick={handleRestart}
-                className="w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
+                className="theme-text-primary w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
               >
                 Restart...
               </button>
               <button
                 onClick={handleShutDown}
-                className="w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
+                className="theme-text-primary w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
               >
                 Shut Down...
               </button>
 
-              <div className="h-px bg-gray-200 my-1" />
+              <div className="h-px my-1" style={{ background: 'var(--theme-windowBorder)' }} />
 
               {/* Lock & Logout */}
               <button
                 onClick={handleLockScreen}
-                className="w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
+                className="theme-text-primary w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
               >
                 Lock Screen
               </button>
               <button
                 onClick={handleLogout}
-                className="w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
+                className="theme-text-primary w-full px-4 py-1.5 text-left text-sm hover:bg-blue-500 hover:text-white transition-colors"
               >
                 Log Out User...
               </button>
@@ -226,24 +229,27 @@ export const MenuBar: React.FC<MenuBarProps> = ({
           )}
         </div>
 
-        <span className="font-semibold">Munashe Njanji Portfolio</span>
+        <span className="font-semibold text-xs md:text-sm truncate max-w-[120px] md:max-w-none" style={{ color: 'var(--theme-menuBarText)' }}>
+          Munashe Njanji Portfolio
+        </span>
 
-        <div className="flex items-center space-x-3 text-gray-600">
-          <button className="hover:text-gray-800 transition-colors">File</button>
-          <button className="hover:text-gray-800 transition-colors">Edit</button>
-          <button className="hover:text-gray-800 transition-colors">View</button>
-          <button className="hover:text-gray-800 transition-colors">Window</button>
-          <button className="hover:text-gray-800 transition-colors">Help</button>
+        <div className="hidden lg:flex items-center space-x-3" style={{ color: 'var(--theme-menuBarText)' }}>
+          <button className="hover:opacity-80 transition-opacity">File</button>
+          <button className="hover:opacity-80 transition-opacity">Edit</button>
+          <button className="hover:opacity-80 transition-opacity">View</button>
+          <button className="hover:opacity-80 transition-opacity">Window</button>
+          <button className="hover:opacity-80 transition-opacity">Help</button>
         </div>
       </div>
 
       {/* Right side - Status icons and time */}
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-1 md:space-x-3" style={{ color: 'var(--theme-menuBarText)' }}>
         {/* Battery indicator */}
         <div className="relative" ref={batteryMenuRef}>
           <button
             onClick={() => setBatteryMenuOpen(!batteryMenuOpen)}
-            className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 px-2 py-1 rounded hover:bg-gray-200/50 transition-colors"
+            className="flex items-center space-x-1 px-2 py-1 rounded theme-hover transition-colors"
+            style={{ color: 'var(--theme-menuBarText)' }}
           >
             <svg
               width="16"
@@ -269,31 +275,34 @@ export const MenuBar: React.FC<MenuBarProps> = ({
 
           {/* Battery Menu Dropdown */}
           {batteryMenuOpen && (
-            <div className="absolute right-0 top-full mt-1 w-64 bg-white/95 backdrop-blur-md rounded-lg shadow-lg border border-gray-200/50 py-2 z-50">
+            <div className="theme-window absolute right-0 top-full mt-1 w-64 rounded-lg shadow-lg py-2 z-[10000]" style={{ backdropFilter: 'blur(20px)' }}>
               <div className="px-4 py-2">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-semibold">Battery</span>
-                  <span className="text-sm text-gray-600">{batteryLevel}%</span>
+                  <span className="theme-text-primary text-sm font-semibold">Battery</span>
+                  <span className="theme-text-secondary text-sm">{batteryLevel}%</span>
                 </div>
 
                 {/* Battery visual */}
                 <div className="mb-3">
-                  <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: 'var(--theme-windowBorder)' }}>
                     <div
                       className={`h-full transition-all ${
                         isCharging
                           ? 'bg-green-500'
                           : batteryLevel > 20
-                            ? 'bg-gray-800'
+                            ? ''
                             : 'bg-red-500'
                       }`}
-                      style={{ width: `${batteryLevel}%` }}
+                      style={{ 
+                        width: `${batteryLevel}%`,
+                        background: isCharging ? undefined : (batteryLevel > 20 ? 'var(--theme-textPrimary)' : undefined)
+                      }}
                     />
                   </div>
                 </div>
 
                 {/* Status */}
-                <div className="space-y-1 text-xs text-gray-600">
+                <div className="space-y-1 text-xs theme-text-secondary">
                   <div className="flex justify-between">
                     <span>Status:</span>
                     <span className="font-medium">
@@ -317,14 +326,14 @@ export const MenuBar: React.FC<MenuBarProps> = ({
                   )}
                 </div>
 
-                <div className="h-px bg-gray-200 my-2" />
+                <div className="h-px my-2" style={{ background: 'var(--theme-windowBorder)' }} />
 
                 <button
                   onClick={() => {
                     setBatteryMenuOpen(false)
                     openWindow('preferences')
                   }}
-                  className="w-full text-left px-2 py-1.5 text-xs hover:bg-blue-500 hover:text-white rounded transition-colors"
+                  className="theme-text-primary w-full text-left px-2 py-1.5 text-xs hover:bg-blue-500 hover:text-white rounded transition-colors"
                 >
                   Battery Preferences...
                 </button>
@@ -337,7 +346,8 @@ export const MenuBar: React.FC<MenuBarProps> = ({
         <div className="relative" ref={wifiMenuRef}>
           <button
             onClick={() => setWifiMenuOpen(!wifiMenuOpen)}
-            className="p-1 rounded hover:bg-gray-200/50 transition-colors text-gray-600 hover:text-gray-800"
+            className="p-1 rounded theme-hover transition-colors"
+            style={{ color: 'var(--theme-menuBarText)' }}
             title="WiFi"
           >
             <svg
@@ -389,10 +399,10 @@ export const MenuBar: React.FC<MenuBarProps> = ({
 
           {/* WiFi Menu Dropdown */}
           {wifiMenuOpen && (
-            <div className="absolute right-0 top-full mt-1 w-72 bg-white/95 backdrop-blur-md rounded-lg shadow-lg border border-gray-200/50 py-2 z-50">
+            <div className="theme-window absolute right-0 top-full mt-1 w-72 rounded-lg shadow-lg py-2 z-[10000]" style={{ backdropFilter: 'blur(20px)' }}>
               <div className="px-4 py-2">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-semibold">WiFi</span>
+                  <span className="theme-text-primary text-sm font-semibold">WiFi</span>
                   <span
                     className={`text-xs font-medium ${isOnline ? 'text-green-600' : 'text-red-600'}`}
                   >
@@ -435,24 +445,24 @@ export const MenuBar: React.FC<MenuBarProps> = ({
                     </div>
 
                     {/* Network Stats */}
-                    <div className="space-y-2 text-xs text-gray-600 mb-3">
+                    <div className="space-y-2 text-xs theme-text-secondary mb-3">
                       <div className="flex justify-between">
                         <span>Connection Type:</span>
-                        <span className="font-medium text-gray-900 capitalize">{type}</span>
+                        <span className="theme-text-primary font-medium capitalize">{type}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Effective Type:</span>
-                        <span className="font-medium text-gray-900 uppercase">
+                        <span className="theme-text-primary font-medium uppercase">
                           {effectiveType}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span>Download Speed:</span>
-                        <span className="font-medium text-gray-900">{downlink} Mbps</span>
+                        <span className="theme-text-primary font-medium">{downlink} Mbps</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Latency (RTT):</span>
-                        <span className="font-medium text-gray-900">{rtt} ms</span>
+                        <span className="theme-text-primary font-medium">{rtt} ms</span>
                       </div>
                       {isSupported && (
                         <div className="flex justify-between">
@@ -478,14 +488,14 @@ export const MenuBar: React.FC<MenuBarProps> = ({
                   </div>
                 )}
 
-                <div className="h-px bg-gray-200 my-2" />
+                <div className="h-px my-2" style={{ background: 'var(--theme-windowBorder)' }} />
 
                 <button
                   onClick={() => {
                     setWifiMenuOpen(false)
                     openWindow('preferences')
                   }}
-                  className="w-full text-left px-2 py-1.5 text-xs hover:bg-blue-500 hover:text-white rounded transition-colors"
+                  className="theme-text-primary w-full text-left px-2 py-1.5 text-xs hover:bg-blue-500 hover:text-white rounded transition-colors"
                 >
                   Network Preferences...
                 </button>
@@ -497,10 +507,8 @@ export const MenuBar: React.FC<MenuBarProps> = ({
         {/* Spotlight search */}
         <button
           onClick={onSpotlightClick}
-          className="
-            p-1 rounded hover:bg-gray-200/50 
-            transition-colors text-gray-600 hover:text-gray-800
-          "
+          className="p-1 rounded theme-hover transition-colors"
+          style={{ color: 'var(--theme-menuBarText)' }}
           title="Spotlight Search (⌘Space)"
         >
           <svg
@@ -523,10 +531,8 @@ export const MenuBar: React.FC<MenuBarProps> = ({
         {/* Notification Center */}
         <button
           onClick={onNotificationCenterClick}
-          className="
-            p-1 rounded hover:bg-gray-200/50 
-            transition-colors text-gray-600 hover:text-gray-800
-          "
+          className="p-1 rounded theme-hover transition-colors"
+          style={{ color: 'var(--theme-menuBarText)' }}
           title="Notification Center"
         >
           <svg
@@ -544,14 +550,21 @@ export const MenuBar: React.FC<MenuBarProps> = ({
         <div className="relative" ref={calendarMenuRef}>
           <button
             onClick={() => setCalendarOpen(!calendarOpen)}
-            className="text-gray-800 font-medium min-w-[120px] text-right px-2 py-1 rounded hover:bg-gray-200/50 transition-colors"
+            className="font-medium min-w-[80px] md:min-w-[120px] text-right px-1 md:px-2 py-1 rounded theme-hover transition-colors text-xs md:text-sm"
+            style={{ color: 'var(--theme-menuBarText)' }}
           >
-            {formatTime(currentTime)}
+            <span className="hidden md:inline">{formatTime(currentTime)}</span>
+            <span className="md:hidden">
+              {currentTime.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+              })}
+            </span>
           </button>
 
           {/* Calendar Dropdown */}
           {calendarOpen && (
-            <div className="absolute right-0 top-full mt-1 w-80 bg-white/95 backdrop-blur-md rounded-lg shadow-lg border border-gray-200/50 py-3 z-50">
+            <div className="theme-window absolute right-0 top-full mt-1 w-80 rounded-lg shadow-lg py-3 z-[10000]" style={{ backdropFilter: 'blur(20px)' }}>
               <Calendar currentDate={currentTime} />
             </div>
           )}

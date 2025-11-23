@@ -258,10 +258,10 @@ export const TextEditorApp: React.FC<TextEditorAppProps> = ({ appInstance }) => 
 
   if (!file) {
     return (
-      <div className="w-full h-full flex flex-col items-center justify-center bg-white">
+      <div className="theme-app-bg w-full h-full flex flex-col items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">📝</div>
-          <p className="text-gray-600 mb-6">No file loaded</p>
+          <p className="theme-text-secondary mb-6">No file loaded</p>
           <button
             onClick={handleNewFile}
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
@@ -274,9 +274,9 @@ export const TextEditorApp: React.FC<TextEditorAppProps> = ({ appInstance }) => 
   }
 
   return (
-    <div className="w-full h-full flex flex-col bg-white" onContextMenu={handleContextMenu}>
+    <div className="theme-app-bg w-full h-full flex flex-col" onContextMenu={handleContextMenu}>
       {/* Toolbar */}
-      <div className="h-12 px-4 flex items-center justify-between border-b border-gray-300 bg-gray-50">
+      <div className="h-12 px-4 flex items-center justify-between" style={{ borderBottom: '1px solid var(--theme-windowBorder)', background: 'var(--theme-foreground)' }}>
         <div className="flex items-center space-x-3">
           {isRenaming ? (
             <div className="flex items-center space-x-2">
@@ -288,7 +288,7 @@ export const TextEditorApp: React.FC<TextEditorAppProps> = ({ appInstance }) => 
                   if (e.key === 'Enter') handleRenameSubmit()
                   if (e.key === 'Escape') handleRenameCancel()
                 }}
-                className="px-2 py-1 text-sm border border-blue-500 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="theme-input px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 autoFocus
               />
               <button
@@ -299,17 +299,17 @@ export const TextEditorApp: React.FC<TextEditorAppProps> = ({ appInstance }) => 
               </button>
               <button
                 onClick={handleRenameCancel}
-                className="px-2 py-1 text-xs bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                className="theme-button px-2 py-1 text-xs rounded"
               >
                 ✕
               </button>
             </div>
           ) : (
             <>
-              <span className="text-sm font-medium text-gray-700">{file.name}</span>
+              <span className="theme-text-primary text-sm font-medium">{file.name}</span>
               <button
                 onClick={handleRename}
-                className="text-xs text-gray-500 hover:text-gray-700"
+                className="theme-text-tertiary text-xs hover:opacity-70"
                 title="Rename file"
               >
                 ✏️
@@ -318,7 +318,7 @@ export const TextEditorApp: React.FC<TextEditorAppProps> = ({ appInstance }) => 
           )}
           {!isSaved && <span className="text-xs text-orange-500">● Unsaved</span>}
           {isSaved && lastSaved && (
-            <span className="text-xs text-gray-500">
+            <span className="theme-text-tertiary text-xs">
               Saved {lastSaved.toLocaleTimeString()}
             </span>
           )}

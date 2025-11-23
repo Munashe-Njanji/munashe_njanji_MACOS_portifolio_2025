@@ -228,10 +228,10 @@ export const ImageViewerApp: React.FC<ImageViewerAppProps> = ({ appInstance }) =
 
   if (!file) {
     return (
-      <div className="w-full h-full flex items-center justify-center bg-gray-100">
+      <div className="theme-app-bg w-full h-full flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">🖼️</div>
-          <p className="text-gray-600">No image loaded</p>
+          <p className="theme-text-secondary">No image loaded</p>
         </div>
       </div>
     )
@@ -239,24 +239,24 @@ export const ImageViewerApp: React.FC<ImageViewerAppProps> = ({ appInstance }) =
 
   if (imageError) {
     return (
-      <div className="w-full h-full flex items-center justify-center bg-gray-100">
+      <div className="theme-app-bg w-full h-full flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">⚠️</div>
-          <p className="text-gray-600 mb-2">Failed to load image</p>
-          <p className="text-sm text-gray-500">{file.name}</p>
+          <p className="theme-text-secondary mb-2">Failed to load image</p>
+          <p className="theme-text-tertiary text-sm">{file.name}</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="w-full h-full flex flex-col bg-gray-100" onContextMenu={handleContextMenu}>
+    <div className="theme-app-bg w-full h-full flex flex-col" onContextMenu={handleContextMenu}>
       {/* Toolbar */}
-      <div className="h-12 px-4 flex items-center justify-between border-b border-gray-300 bg-gray-50">
+      <div className="h-12 px-4 flex items-center justify-between" style={{ borderBottom: '1px solid var(--theme-windowBorder)', background: 'var(--theme-foreground)' }}>
         <div className="flex items-center space-x-2">
-          <span className="text-sm font-medium text-gray-700">{file.name}</span>
+          <span className="theme-text-primary text-sm font-medium">{file.name}</span>
           {imageLoaded && (
-            <span className="text-xs text-gray-500">
+            <span className="theme-text-tertiary text-xs">
               {imageDimensions.width} × {imageDimensions.height}px
             </span>
           )}
@@ -265,23 +265,26 @@ export const ImageViewerApp: React.FC<ImageViewerAppProps> = ({ appInstance }) =
         <div className="flex items-center space-x-2">
           <button
             onClick={handleZoomOut}
-            className="px-2 py-1 text-sm bg-white hover:bg-gray-100 border border-gray-300 rounded transition-colors"
+            className="theme-button px-2 py-1 text-sm rounded transition-colors"
+            style={{ border: '1px solid var(--theme-windowBorder)' }}
             title="Zoom Out"
           >
             −
           </button>
-          <span className="text-sm text-gray-700 min-w-[50px] text-center">{zoom}%</span>
+          <span className="theme-text-primary text-sm min-w-[50px] text-center">{zoom}%</span>
           <button
             onClick={handleZoomIn}
-            className="px-2 py-1 text-sm bg-white hover:bg-gray-100 border border-gray-300 rounded transition-colors"
+            className="theme-button px-2 py-1 text-sm rounded transition-colors"
+            style={{ border: '1px solid var(--theme-windowBorder)' }}
             title="Zoom In"
           >
             +
           </button>
-          <div className="w-px h-6 bg-gray-300 mx-2" />
+          <div className="w-px h-6 mx-2" style={{ background: 'var(--theme-windowBorder)' }} />
           <button
             onClick={handleActualSize}
-            className="px-3 py-1 text-sm bg-white hover:bg-gray-100 border border-gray-300 rounded transition-colors"
+            className="theme-button px-3 py-1 text-sm rounded transition-colors"
+            style={{ border: '1px solid var(--theme-windowBorder)' }}
             title="Actual Size (100%)"
           >
             1:1
@@ -291,16 +294,18 @@ export const ImageViewerApp: React.FC<ImageViewerAppProps> = ({ appInstance }) =
             className={`px-3 py-1 text-sm border rounded transition-colors ${
               fitToWindow
                 ? 'bg-blue-500 text-white border-blue-600'
-                : 'bg-white hover:bg-gray-100 border-gray-300'
+                : 'theme-button'
             }`}
+            style={!fitToWindow ? { border: '1px solid var(--theme-windowBorder)' } : undefined}
             title="Fit to Window"
           >
             Fit
           </button>
-          <div className="w-px h-6 bg-gray-300 mx-2" />
+          <div className="w-px h-6 mx-2" style={{ background: 'var(--theme-windowBorder)' }} />
           <button
             onClick={handleRotate}
-            className="px-3 py-1 text-sm bg-white hover:bg-gray-100 border border-gray-300 rounded transition-colors"
+            className="theme-button px-3 py-1 text-sm rounded transition-colors"
+            style={{ border: '1px solid var(--theme-windowBorder)' }}
             title="Rotate 90°"
           >
             🔄
@@ -320,7 +325,7 @@ export const ImageViewerApp: React.FC<ImageViewerAppProps> = ({ appInstance }) =
         }}
       >
         {!imageLoaded && !imageError && (
-          <div className="text-gray-500">Loading image...</div>
+          <div className="theme-text-secondary">Loading image...</div>
         )}
         {imageUrl && (
           <img
@@ -346,7 +351,7 @@ export const ImageViewerApp: React.FC<ImageViewerAppProps> = ({ appInstance }) =
 
       {/* Status Bar */}
       {imageLoaded && (
-        <div className="h-8 px-4 flex items-center justify-between border-t border-gray-300 bg-gray-50 text-xs text-gray-600">
+        <div className="h-8 px-4 flex items-center justify-between text-xs theme-text-secondary" style={{ borderTop: '1px solid var(--theme-windowBorder)', background: 'var(--theme-foreground)' }}>
           <div>
             {file.mimeType} • {((file.size || 0) / 1024).toFixed(2)} KB
           </div>

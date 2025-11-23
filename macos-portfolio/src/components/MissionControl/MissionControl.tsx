@@ -65,13 +65,13 @@ export const MissionControl: React.FC<MissionControlProps> = ({
       onClick={onClose}
     >
       {/* Header */}
-      <div className="absolute top-8 left-0 right-0 flex justify-center">
-        <h1 className="text-3xl font-semibold text-white/90">Mission Control</h1>
+      <div className="absolute top-4 md:top-8 left-0 right-0 flex justify-center">
+        <h1 className="text-xl md:text-3xl font-semibold text-white/90">Mission Control</h1>
       </div>
 
       {/* Spaces Bar */}
-      <div className="absolute top-24 left-0 right-0 flex justify-center px-8">
-        <div className="flex items-center space-x-4">
+      <div className="absolute top-12 md:top-24 left-0 right-0 flex justify-center px-2 md:px-8">
+        <div className="flex items-center space-x-2 md:space-x-4 overflow-x-auto max-w-full">
           {Object.values(spaces).map(space => (
             <SpaceThumbnail
               key={space.id}

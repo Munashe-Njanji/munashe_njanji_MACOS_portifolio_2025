@@ -69,11 +69,8 @@ export const DockIcon: React.FC<ExtendedDockIconProps> = ({
       {/* Active indicator */}
       {isActive && (
         <div
-          className="
-          absolute -bottom-1 w-1 h-1 
-          bg-gray-800 rounded-full
-          animate-pulse
-        "
+          className="absolute -bottom-1 w-1 h-1 rounded-full animate-pulse"
+          style={{ background: 'var(--theme-textPrimary)' }}
         />
       )}
 
@@ -81,7 +78,7 @@ export const DockIcon: React.FC<ExtendedDockIconProps> = ({
       <div
         ref={iconRef}
         className="
-          w-14 h-14 flex items-center justify-center
+          w-10 h-10 md:w-14 md:h-14 flex items-center justify-center
           cursor-pointer
           transition-all duration-200 ease-out
           origin-bottom
@@ -96,11 +93,11 @@ export const DockIcon: React.FC<ExtendedDockIconProps> = ({
         title={app.label}
       >
         {isSettingsIcon ? (
-          <div className="w-12 h-12 flex items-center justify-center text-gray-700 drop-shadow-lg">
-            <SettingsIcon size={48} />
+          <div className="w-8 h-8 md:w-12 md:h-12 flex items-center justify-center drop-shadow-lg" style={{ color: 'var(--theme-textPrimary)' }}>
+            <SettingsIcon size={window.innerWidth < 768 ? 32 : 48} />
           </div>
         ) : isClipboardIcon ? (
-          <div className="w-12 h-12 flex items-center justify-center text-gray-700 drop-shadow-lg">
+          <div className="w-8 h-8 md:w-12 md:h-12 flex items-center justify-center drop-shadow-lg" style={{ color: 'var(--theme-textPrimary)' }}>
             <ClipboardIcon />
           </div>
         ) : isImageIcon ? (
@@ -111,7 +108,7 @@ export const DockIcon: React.FC<ExtendedDockIconProps> = ({
             draggable={false}
           />
         ) : (
-          <span className="text-3xl">{app.icon || '📱'}</span>
+          <span className="text-2xl md:text-3xl">{app.icon || '📱'}</span>
         )}
       </div>
 

@@ -42,17 +42,24 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
       <div
         ref={panelRef}
         className="
+          theme-window
           fixed right-0 top-0 bottom-0 z-[9999]
-          w-[380px] bg-white/95 backdrop-blur-md
-          border-l border-gray-200/50
+          w-full md:w-[380px]
+          border-l
           shadow-2xl
           flex flex-col
+          transition-all duration-300
         "
+        style={{
+          background: 'var(--theme-windowBackground)',
+          backdropFilter: 'blur(var(--theme-blur))',
+          borderColor: 'var(--theme-windowBorder)',
+        }}
       >
         {/* Header */}
-        <div className="p-4 border-b border-gray-200/50">
+        <div className="p-4 border-b" style={{ borderColor: 'var(--theme-windowBorder)' }}>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-semibold text-gray-800">Notification Center</h2>
+            <h2 className="theme-text-primary text-lg font-semibold">Notification Center</h2>
             <button
               onClick={onClose}
               className="
