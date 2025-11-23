@@ -36,6 +36,7 @@ export const SafariApp: React.FC<SafariAppProps> = () => {
   const [showBookmarks, setShowBookmarks] = useState<boolean>(false)
   const [history, setHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState<number>(-1)
+  const [trackersBlocked] = useState(() => Math.floor(Math.random() * 99 + 1))
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const { bookmarks, addBookmark, removeBookmark, isBookmarked } = useSafariStore()
@@ -490,7 +491,7 @@ export const SafariApp: React.FC<SafariAppProps> = () => {
                       />
                     </svg>
                     <span className="theme-text-primary text-3xl font-bold">
-                      {Math.floor(Math.random() * 99 + 1)}
+                      {trackersBlocked}
                     </span>
                   </div>
                   <p className="theme-text-secondary text-sm">

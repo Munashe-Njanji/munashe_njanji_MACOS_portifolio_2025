@@ -87,7 +87,7 @@ export const ClipboardManager: React.FC = () => {
           if (text && text.trim()) {
             addEntry(text, 'text')
           }
-        } catch (err) {
+        } catch {
           // Fallback to selection if clipboard API fails
           const selection = window.getSelection()?.toString()
           if (selection && selection.trim()) {

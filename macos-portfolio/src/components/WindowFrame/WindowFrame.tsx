@@ -72,7 +72,7 @@ export const WindowFrame: React.FC<WindowFrameProps & { windowId?: string }> = (
 
       // If window is maximized and user starts dragging, restore it first
       if (appInstance.state.maximized && previousSizeRef.current && windowId) {
-        const { position, size } = previousSizeRef.current
+        const { size } = previousSizeRef.current
         
         // Calculate new position so window follows cursor
         const mouseXPercent = e.clientX / window.innerWidth
