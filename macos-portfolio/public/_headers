@@ -1,0 +1,29 @@
+# Security and SEO Headers
+
+/*
+  # Security Headers
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  
+  # Cache Control
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML files - no cache for dynamic content
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Service Worker
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Sitemap and Robots
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+  Content-Type: application/xml
+
+/robots.txt
+  Cache-Control: public, max-age=3600
+  Content-Type: text/plain

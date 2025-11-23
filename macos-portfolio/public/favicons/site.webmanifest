@@ -1,19 +1,28 @@
 {
-  "name": "Munashe Njanji macOS Portfolio",
-  "short_name": "Portfolio",
+  "name": "Munashe Njanji - Full Stack Developer Portfolio",
+  "short_name": "MN Portfolio",
+  "description": "Interactive macOS-style portfolio showcasing full-stack development expertise",
+  "start_url": "/",
+  "scope": "/",
   "icons": [
     {
       "src": "/favicons/android-chrome-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/favicons/android-chrome-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
   "theme_color": "#000000",
   "background_color": "#000000",
-  "display": "standalone"
+  "display": "standalone",
+  "orientation": "any",
+  "categories": ["portfolio", "developer", "technology"],
+  "lang": "en-US",
+  "dir": "ltr"
 }

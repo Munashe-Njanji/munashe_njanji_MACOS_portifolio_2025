@@ -1,0 +1,18 @@
+# Open Graph Image Placeholder
+
+You need to create an og-image.png file (1200x630px) for social media sharing.
+
+This image should be a screenshot or graphic representing your portfolio.
+
+Recommended specs:
+- Size: 1200 x 630 pixels
+- Format: PNG or JPG
+- File size: < 1MB
+- Location: macos-portfolio/public/og-image.png
+
+You can create this by:
+1. Taking a screenshot of your portfolio
+2. Using a design tool like Figma or Canva
+3. Using an online OG image generator
+
+Once created, place it at: macos-portfolio/public/og-image.png
