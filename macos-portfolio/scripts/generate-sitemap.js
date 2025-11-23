@@ -17,7 +17,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // Configuration
-const SITE_URL = 'https://afroblush.store'
+const SITE_URL = 'https://www.afroblush.store'
 const OUTPUT_PATH = path.join(__dirname, '../public/sitemap.xml')
 
 // Define your URLs here
