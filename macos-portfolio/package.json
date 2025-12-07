@@ -31,6 +31,7 @@
     "@milkdown/prose": "^7.17.1",
     "@milkdown/react": "^7.17.1",
     "@milkdown/theme-nord": "^7.17.1",
+    "@vercel/analytics": "^1.6.1",
     "gsap": "^3.13.0",
     "idb": "^8.0.3",
     "immer": "^10.2.0",
