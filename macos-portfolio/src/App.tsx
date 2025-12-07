@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useEffect, useState } from 'react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import { Desktop } from '@/components/Desktop'
 import { MenuBar } from '@/components/MenuBar'
 import { Dock } from '@/components/Dock'
@@ -417,6 +418,9 @@ function App() {
 
       {/* Clipboard Manager */}
       <ClipboardManager />
+
+      {/* Vercel Speed Insights for performance monitoring */}
+      <SpeedInsights />
     </div>
   )
 }
